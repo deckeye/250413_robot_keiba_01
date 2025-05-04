@@ -1,4 +1,11 @@
 let スピード = 0
+function 後退モードに切り替え () {
+    pins.digitalWritePin(DigitalPin.P14, 1)
+    pins.digitalWritePin(DigitalPin.P12, 1)
+    pins.digitalWritePin(DigitalPin.P13, 0)
+    pins.digitalWritePin(DigitalPin.P15, 0)
+    pins.digitalWritePin(DigitalPin.P16, 1)
+}
 radio.onReceivedNumber(function (receivedNumber) {
     if (receivedNumber == 10) {
         モーターテスト5秒()
@@ -12,6 +19,8 @@ radio.onReceivedNumber(function (receivedNumber) {
         右折モードに切り替え()
     } else if (receivedNumber == 11) {
         スピード += 100
+    } else if (receivedNumber == 8) {
+        後退モードに切り替え()
     } else {
     	
     }
@@ -32,8 +41,7 @@ function 左折モードに切り替え () {
     pins.digitalWritePin(DigitalPin.P16, 0)
 }
 input.onButtonPressed(Button.A, function () {
-    radio.sendNumber(2)
-    モーターテスト5秒()
+    radio.sendNumber(8)
 })
 input.onGesture(Gesture.TiltLeft, function () {
     led.enable(true)
